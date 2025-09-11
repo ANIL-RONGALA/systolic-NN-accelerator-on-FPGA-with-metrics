@@ -13,7 +13,21 @@ module pe (input clk,
             reg signed [31:0] sum;
 
             always @(posedge clk or negedge rst) begin
+                if(!rst) begin
+                    a_out <= 8'd0;
+                    b_out <= 8'd0;
+                    c_out <= 32'd0;
+                end 
+                else begin
+                a_reg <= a_in;
+                b_reg <= b_in;
+                mult_result <= a_reg * b_reg;
 
-            
+                sum <= c_in + mult_result;
+
+                a_out <= a_reg;
+                b_out <= b_reg;
+                c_out <= sum;
+                end
 end
 endmodule

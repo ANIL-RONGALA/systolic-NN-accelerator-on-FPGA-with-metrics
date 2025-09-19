@@ -9,31 +9,7 @@ module controller #(
     parameter ADDR_WIDTH = 10
 )(
     input wire clk,
-    input wire rst_n,
-    
-    // Host interface
-    input wire start,
-    input wire [7:0] matrix_size_m,
-    input wire [7:0] matrix_size_k,  
-    input wire [7:0] matrix_size_n,
-    output reg done,
-    output reg busy,
-    
-    // Memory interface
-    output reg [ADDR_WIDTH-1:0] mem_addr_a,
-    output reg [ADDR_WIDTH-1:0] mem_addr_b,
-    output reg [ADDR_WIDTH-1:0] mem_addr_c,
-    output reg mem_read_en_a,
-    output reg mem_read_en_b,
-    output reg mem_write_en_c,
-    input wire [DATA_WIDTH-1:0] mem_data_a,
-    input wire [DATA_WIDTH-1:0] mem_data_b,
-    output reg [ACCUM_WIDTH-1:0] mem_data_c,
-    
-    // Array control
-    output reg array_enable,
-    output reg load_weight,
-    output reg clear_accum,
+    input wire 
     
     // Array data interfaces
     output reg signed [DATA_WIDTH-1:0] activation_in [0:ARRAY_SIZE-1],

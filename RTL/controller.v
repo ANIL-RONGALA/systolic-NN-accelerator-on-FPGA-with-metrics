@@ -9,7 +9,21 @@ module controller #(
     parameter ADDR_WIDTH = 10
 )(
     input wire clk,
-    input wire 
+    input wire rst_n,
+    
+    // Host interface
+    input wire start,
+    input wire [7:0] matrix_size_m,
+    input wire [7:0] matrix_size_k,  
+    input wire [7:0] matrix_size_n,
+    output reg done,
+    output reg busy,
+    
+    
+    // Array control
+    output reg array_enable,
+    output reg load_weight,
+    output reg clear_accum,
     
     // Array data interfaces
     output reg signed [DATA_WIDTH-1:0] activation_in [0:ARRAY_SIZE-1],
@@ -45,67 +59,7 @@ module controller #(
     wire [7:0] total_tiles_k = (matrix_size_k + ARRAY_SIZE - 1) / ARRAY_SIZE;
     wire [7:0] total_tiles_n = (matrix_size_n + ARRAY_SIZE - 1) / ARRAY_SIZE;
     
-    // State machine
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            current_state <= IDLE;
-        end else begin
-            current_state <= next_state;
-        end
-    end
-    
-    // Next state logic
-    always @(*) begin
-        next_state = current_state;
-        
-        case (current_state)
-            IDLE: begin
-                if (start) next_state = LOAD_WEIGHTS;
-            end
-            
-            LOAD_WEIGHTS: begin
-                if (cycle_count == ARRAY_SIZE * ARRAY_SIZE) 
-                    next_state = COMPUTE_SETUP;
-            end
-            
-            COMPUTE_SETUP: begin
-                next_state = COMPUTE;
-            end
-            
-            COMPUTE: begin
-                if (cycle_count == compute_cycles)
-                    next_state = DRAIN;
-            end
-            
-            DRAIN: begin
-                if (cycle_count == ARRAY_SIZE)
-                    next_state = STORE_RESULTS;
-            end
-            
-            STORE_RESULTS: begin
-                if (cycle_count == ARRAY_SIZE) begin
-                    if (current_tile_k == total_tiles_k - 1) begin
-                        if (current_tile_n == total_tiles_n - 1) begin
-                            if (current_tile_m == total_tiles_m - 1) begin
-                                next_state = DONE_STATE;
-                            end else begin
-                                next_state = LOAD_WEIGHTS;
-                            end
-                        end else begin
-                            next_state = LOAD_WEIGHTS;
-                        end
-                    end else begin
-                        next_state = LOAD_WEIGHTS;
-                    end
-                end
-            end
-            
-            DONE_STATE: begin
-                next_state = IDLE;
-            end
-        endcase
-    end
-    
+   
     // Output logic and counter management
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin

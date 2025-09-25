@@ -11,13 +11,7 @@ module pe_array #(
     output     signed [31:0]     c_out[SIZE][SIZE] // Grid of final results
 );
 
-    // Internal wires to connect the PEs
-    logic signed [7:0] a_wires [SIZE][SIZE+1];
-    logic signed [7:0] b_wires [SIZE+1][SIZE];
-
-    // Assign top-level inputs to the edge of the wire grid
-    assign a_wires[0] = a_in; // Simplified for concept
-    assign b_wires[0] = b_in;
+   
 
     // Generate the 4x4 grid of PEs
     genvar i, j;

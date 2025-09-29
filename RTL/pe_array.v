@@ -1,40 +1,38 @@
-// rtl/pe_array.v
+// Flat array of PEs (simple version — broadcasts a/b to all PEs).
 module pe_array #(
-    parameter SIZE = 4
+  parameter IN_WIDTH = 8,
+  parameter ACC_WIDTH = 32,
+  parameter PE_ROWS = 1,
+  parameter PE_COLS = 1
 )(
-    input                            clk,
-    input                            rst_n,
+  input  logic clk,
+  input  logic rst_n,
 
-    input      signed [7:0]      a_in[SIZE], // Array of inputs for the leftmost column
-    input      signed [7:0]      b_in[SIZE], // Array of inputs for the top row
-    
-    output     signed [31:0]     c_out[SIZE][SIZE] // Grid of final results
+  input  logic in_valid,
+  input  logic signed [IN_WIDTH-1:0] a_in,
+  input  logic signed [IN_WIDTH-1:0] b_in,
+  input  logic clear,
+
+  output logic out_valid,
+  output logic signed [ACC_WIDTH-1:0] c_out [PE_ROWS*PE_COLS]
 );
 
-   
+  genvar i;
+  generate
+    for (i = 0; i < PE_ROWS*PE_COLS; i++) begin : pe_gen
+      pe #(.IN_WIDTH(IN_WIDTH), .ACC_WIDTH(ACC_WIDTH)) u_pe (
+        .clk(clk),
+        .rst_n(rst_n),
+        .in_valid(in_valid),
+        .a(a_in),
+        .b(b_in),
+        .clear(clear),
+        .out_valid(),   // ignored
+        .acc_out(c_out[i])
+      );
+    end
+  endgenerate
 
-    // Generate the 4x4 grid of PEs
-    genvar i, j;
-    generate
-        for (i = 0; i < SIZE; i = i + 1) begin
-            for (j = 0; j < SIZE; j = j + 1) begin
-                
-                pe pe_inst (
-                    .clk(clk),
-                    .rst_n(rst_n),
-
-                    // Connect to wires from left and top
-                    .a_in(a_wires[i][j]),
-                    .b_in(b_wires[i][j]),
-                    .c_in(1'b0), // Accumulation starts from 0
-
-                    // Connect outputs to wires for right and bottom neighbors
-                    .a_out(a_wires[i][j+1]),
-                    .b_out(b_wires[i+1][j]),
-                    .c_out(c_out[i][j])
-                );
-            end
-        end
-    endgenerate
+  assign out_valid = in_valid;
 
 endmodule

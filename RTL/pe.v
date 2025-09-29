@@ -1,33 +1,41 @@
-module pe (input clk,
-            input rst,
-            input[7:0] a_in,
-            input[7:0] b_in,
-            input[31:0] c_in,
-            output[7:0] a_out,
-            output[7:0] b_out,
-            outside[31:0] c_out
-            );
+// Processing Element (PE)
+// Signed multiply-accumulate with accumulator clear.
+module pe #(
+  parameter IN_WIDTH = 8,     // input width (int8)
+  parameter ACC_WIDTH = 32    // accumulator width (int32)
+) (
+  input  logic clk,
+  input  logic rst_n,
 
-            reg signed [7:0] a_reg, b_reg;
-            reg signed [15:0] mult_result;
-            reg signed [31:0] sum;
+  input  logic in_valid,
+  input  logic signed [IN_WIDTH-1:0] a,
+  input  logic signed [IN_WIDTH-1:0] b,
 
-            always @(posedge clk or negedge rst) begin
-                if(!rst) begin
-                    a_out <= 8'd0;
-                    b_out <= 8'd0;
-                    c_out <= 32'd0;
-                end 
-                else begin
-                a_reg <= a_in;
-                b_reg <= b_in;
-                mult_result <= a_reg * b_reg;
+  input  logic clear,   // synchronous clear of accumulator
 
-                sum <= c_in + mult_result;
+  output logic out_valid,
+  output logic signed [ACC_WIDTH-1:0] acc_out
+);
 
-                a_out <= a_reg;
-                b_out <= b_reg;
-                c_out <= sum;
-                end
-end
+  logic signed [ACC_WIDTH-1:0] acc;
+
+  always_ff @(posedge clk) begin
+    if (!rst_n) begin
+      acc <= '0;
+      out_valid <= 1'b0;
+    end else begin
+      if (clear) begin
+        acc <= '0;
+        out_valid <= 1'b0;
+      end else if (in_valid) begin
+        acc <= acc + $signed(a) * $signed(b);
+        out_valid <= 1'b1;
+      end else begin
+        out_valid <= 1'b0;
+      end
+    end
+  end
+
+  assign acc_out = acc;
+
 endmodule

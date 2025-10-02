@@ -1,5 +1,11 @@
 # systolic-NN-accelerator-on-FPGA-with-metrics
-Designing and implementing a scalable systolic-array neural-network accelerator (4×4 PE array, tile-based mat-mul) in SystemVerilog; verified with a Python golden model and SystemVerilog testbench — achieving functional parity and demonstrate tiling to 64×64 matrices.
+Design and verify hardware for matrix multiplication (core NN primitive).
+
+Compare RTL results against a Python golden model.
+
+Scale from a single Processing Element (PE) to systolic arrays.
+
+Synthesize on FPGA (Quartus/Vivado) and extract performance metrics.
 
 nn_accelerator/
 │

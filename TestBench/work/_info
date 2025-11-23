@@ -1,0 +1,84 @@
+m255
+K4
+z2
+!s11f vlog 2025.2 2025.05, May 31 2025
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/Questa/questa_fse/win64
+vsystolic_pe
+2C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_PE.v
+!s110 1763910332
+!i10b 1
+!s100 I[CBS=]zkjlfnDJUOdn2U1
+I`<o@9GOHHdHbQRo378bFa1
+Z0 dC:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench
+w1763882944
+8C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_PE.v
+FC:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_PE.v
+!i122 2
+L0 5 41
+Z1 VDg1SIo80bB@j0V0VzS_@n1
+Z2 OL;L;2025.2;82
+r1
+!s85 0
+31
+!s108 1763910332.000000
+!s107 C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_PE.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_PE.v|
+!i113 0
+o-work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z3 tCvgOpt 0 defaultOptions 1085333592
+vtb_systolic_array
+2C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_array.sv
+Z4 DXx6 sv_std 3 std 0 22 @5XbY]_OacJl=`ToSm<M^0
+!s110 1763910330
+!i10b 1
+!s100 TIfDQlzLDgcX@c5K_G11>3
+IYkd`T^HZ`FKUNVY`BWknZ1
+S1
+R0
+w1763885224
+8C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_array.sv
+FC:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_array.sv
+!i122 0
+L0 7 91
+R1
+R2
+r1
+!s85 0
+31
+!s108 1763910330.000000
+!s107 C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_array.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_array.sv|
+!i113 0
+Z5 o-work work -sv -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R3
+vtb_systolic_pe
+2C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_pe.sv
+R4
+!s110 1763910331
+!i10b 1
+!s100 8dXAK;8GYWYWiPh<5Ij6z2
+I@^UgSi4f7MOR23^A@hKCP2
+S1
+R0
+w1763884515
+8C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_pe.sv
+FC:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_pe.sv
+!i122 1
+L0 6 61
+R1
+R2
+r1
+!s85 0
+31
+!s108 1763910331.000000
+!s107 C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_pe.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_pe.sv|
+!i113 0
+R5
+R3

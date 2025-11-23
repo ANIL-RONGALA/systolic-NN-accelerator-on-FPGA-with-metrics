@@ -1,6 +1,10 @@
 m255
 K4
 z2
+Z0 !s12c _opt
+Z1 !s99 nomlopt
+R0
+R1
 !s11f vlog 2025.2 2025.05, May 31 2025
 13
 !s112 1.1
@@ -9,76 +13,188 @@ z2
 !i10f 100
 cModel Technology
 dC:/Questa/questa_fse/win64
-vsystolic_pe
-2C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_PE.v
-!s110 1763910332
+T_opt
+!i145 1
+!i144 0
+!s110 1763918040
+V<8;bQPnag^SHJ2ob?T1?D0
+04 15 4 work tb_systolic_top fast 0
+=1-04cf4ba5a87a-692340d7-2fd-bdc
+R1
+!s12f OEM100
+!s12b OEM100
+!s124 OEM10U20 
+!s135 nogc
+o-quiet -auto_acc_if_foreign -work work
+tCvgOpt 0 defaultOptions 1107585188
+n@_opt
+OL;O;2025.2;82
+vsystolic_array
+2C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_Array.v
+Z2 !s110 1763917972
 !i10b 1
-!s100 I[CBS=]zkjlfnDJUOdn2U1
-I`<o@9GOHHdHbQRo378bFa1
-Z0 dC:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench
-w1763882944
-8C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_PE.v
-FC:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_PE.v
-!i122 2
-L0 5 41
-Z1 VDg1SIo80bB@j0V0VzS_@n1
-Z2 OL;L;2025.2;82
+!s100 Z=D7LM57`JoI2i20Wcb>H0
+I;`HVbdjYb`kW9TJfFgQnd3
+Z3 dC:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench
+w1763912306
+8C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_Array.v
+FC:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_Array.v
+!i122 68
+L0 7 116
+Z4 VDg1SIo80bB@j0V0VzS_@n1
+Z5 OL;L;2025.2;82
 r1
 !s85 0
 31
-!s108 1763910332.000000
+Z6 !s108 1763917972.000000
+!s107 C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_Array.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_Array.v|
+!i113 0
+Z7 o-work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z8 tCvgOpt 0 defaultOptions 1085333592
+vsystolic_controller
+2C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_Controller.v
+R2
+!i10b 1
+!s100 KWjSjzIh3ERRNP^3kZ7S50
+IiY<n3IeDbfGfTdWaeZ[WV3
+R3
+w1763914003
+8C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_Controller.v
+FC:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_Controller.v
+!i122 69
+L0 5 105
+R4
+R5
+r1
+!s85 0
+31
+R6
+!s107 C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_Controller.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_Controller.v|
+!i113 0
+R7
+R8
+vsystolic_pe
+2C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_PE.v
+R2
+!i10b 1
+!s100 I[CBS=]zkjlfnDJUOdn2U1
+I`<o@9GOHHdHbQRo378bFa1
+R3
+w1763882944
+8C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_PE.v
+FC:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_PE.v
+!i122 70
+L0 5 41
+R4
+R5
+r1
+!s85 0
+31
+R6
 !s107 C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_PE.v|
 !s90 -reportprogress|300|-work|work|-vopt|-stats=none|C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_PE.v|
 !i113 0
-o-work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
-Z3 tCvgOpt 0 defaultOptions 1085333592
+R7
+R8
+vsystolic_top
+2../RTL/Systolic_Top.v
+Z9 DXx6 sv_std 3 std 0 22 @5XbY]_OacJl=`ToSm<M^0
+!s110 1763918038
+!i10b 1
+!s100 44oKNB31glSH9QP9USIdl2
+IM_TjIGCii5L7eIZ8U2Vnf0
+S1
+R3
+w1763917170
+8../RTL/Systolic_Top.v
+F../RTL/Systolic_Top.v
+!i122 72
+L0 7 151
+R4
+R5
+r1
+!s85 0
+31
+!s108 1763918038.000000
+!s107 ../RTL/Systolic_Top.v|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|../RTL/Systolic_Top.v|
+!i113 0
+Z10 o-work work -sv -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R8
 vtb_systolic_array
 2C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_array.sv
-Z4 DXx6 sv_std 3 std 0 22 @5XbY]_OacJl=`ToSm<M^0
-!s110 1763910330
+R9
+Z11 !s110 1763917971
 !i10b 1
 !s100 TIfDQlzLDgcX@c5K_G11>3
 IYkd`T^HZ`FKUNVY`BWknZ1
 S1
-R0
+R3
 w1763885224
 8C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_array.sv
 FC:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_array.sv
-!i122 0
+!i122 65
 L0 7 91
-R1
-R2
+R4
+R5
 r1
 !s85 0
 31
-!s108 1763910330.000000
+Z12 !s108 1763917971.000000
 !s107 C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_array.sv|
 !s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_array.sv|
 !i113 0
-Z5 o-work work -sv -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
-R3
+R10
+R8
 vtb_systolic_pe
 2C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_pe.sv
-R4
-!s110 1763910331
+R9
+R11
 !i10b 1
 !s100 8dXAK;8GYWYWiPh<5Ij6z2
 I@^UgSi4f7MOR23^A@hKCP2
 S1
-R0
+R3
 w1763884515
 8C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_pe.sv
 FC:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_pe.sv
-!i122 1
+!i122 66
 L0 6 61
-R1
-R2
+R4
+R5
 r1
 !s85 0
 31
-!s108 1763910331.000000
+R12
 !s107 C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_pe.sv|
 !s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_pe.sv|
 !i113 0
-R5
+R10
+R8
+vtb_systolic_top
+2C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_top.sv
+R9
+R11
+!i10b 1
+!s100 i0Y[0`7^4cL7[E;iM@6hZ2
+I4k?M7]akfgTlMhc:oH0QY0
+S1
 R3
+w1763914295
+8C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_top.sv
+FC:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_top.sv
+!i122 67
+L0 6 148
+R4
+R5
+r1
+!s85 0
+31
+R12
+!s107 C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_top.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_top.sv|
+!i113 0
+R10
+R8

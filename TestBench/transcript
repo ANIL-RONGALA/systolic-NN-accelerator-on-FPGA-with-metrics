@@ -1,0 +1,16 @@
+# Reading pref.tcl
+
+vlog -sv ../RTL/Systolic_PE.v
+vlog -sv ../RTL/Systolic_Array.v
+vlog      ../RTL/Systolic_Controller.v
+vlog -sv ../RTL/Systolic_Top.v
+
+vlog -sv tb_systolic_pe.sv
+vlog -sv tb_systolic_array.sv
+vlog -sv tb_systolic_top.sv
+
+
+vsim work.tb_systolic_top
+add wave *
+run -all
+

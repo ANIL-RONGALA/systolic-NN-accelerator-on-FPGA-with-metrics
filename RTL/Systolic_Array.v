@@ -111,7 +111,7 @@ module systolic_array #(
                 assign v_bus[i+1][j+1]  = v_out;
 
                 // flatten outputs
-                localparam int INDEX = i*COLS + j;
+                localparam integer INDEX = i*COLS + j;
                 assign c_bus  [(INDEX+1)*ACC_W-1 -: ACC_W] = ps_out;
                 assign c_valid[INDEX]                      = v_out;
 

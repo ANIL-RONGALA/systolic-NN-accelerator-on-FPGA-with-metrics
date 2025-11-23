@@ -1,7 +1,8 @@
 // systolic_top.v
 // Top-level: classic 2D systolic array + small controller.
-// Expects A (ROWS x K) and B (K x COLS) as flattened int8 matrices.
-// Produces C (ROWS x COLS) as flattened int32 matrix.
+// A : ROWS x K   (flattened, int8)
+// B : K x COLS   (flattened, int8)
+// C : ROWS x COLS (flattened, int32)
 
 module systolic_top #(
     parameter DATA_W = 8,
@@ -23,16 +24,21 @@ module systolic_top #(
     output reg  signed [ROWS*COLS*ACC_W-1:0] c_flat
 );
 
-    // internal storage for A and B
-    integer r, c;
+    // loop / index variables
+    integer r;
+    integer c;
+    integer idx_load_A;
+    integer idx_load_B;
+    integer idx_flat;
 
+    // internal storage for A and B
     reg signed [DATA_W-1:0] A_reg [0:ROWS-1][0:K-1];
     reg signed [DATA_W-1:0] B_reg [0:K-1][0:COLS-1];
 
     // controller
     wire ctrl_busy;
     wire ctrl_done;
-    wire valid_src;
+    wire        valid_src;
     wire [$clog2(K):0] k_idx;
 
     systolic_controller #(
@@ -52,9 +58,9 @@ module systolic_top #(
     assign busy = ctrl_busy;
     assign done = ctrl_done;
 
-    // build A/B input buses for systolic_array
-    reg signed [ROWS*DATA_W-1:0] a_in_bus;
-    reg signed [COLS*DATA_W-1:0] b_in_bus;
+    // buses that feed the array edges
+    reg  signed [ROWS*DATA_W-1:0] a_in_bus;
+    reg  signed [COLS*DATA_W-1:0] b_in_bus;
 
     // outputs from array
     wire signed [ROWS*COLS*ACC_W-1:0] c_bus;
@@ -75,79 +81,76 @@ module systolic_top #(
         .c_valid (c_valid)
     );
 
-    // flags to capture each C(i,j) only once
+    // marks which C(i,j) has already been captured into c_flat
     reg [ROWS*COLS-1:0] captured;
 
-    // unpack A_flat and B_flat once when we get a start pulse in IDLE
-    // here, we simply load every time start is seen while not busy
+    // --------------------------------------------------------------------
+    // unpack A_flat / B_flat on start and capture C results
+    // --------------------------------------------------------------------
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            for (r = 0; r < ROWS; r = r + 1) begin
-                for (c = 0; c < K; c = c + 1) begin
+            // clear A/B storage
+            for (r = 0; r < ROWS; r = r + 1)
+                for (c = 0; c < K; c = c + 1)
                     A_reg[r][c] <= '0;
-                end
-            end
-            for (r = 0; r < K; r = r + 1) begin
-                for (c = 0; c < COLS; c = c + 1) begin
+
+            for (r = 0; r < K; r = r + 1)
+                for (c = 0; c < COLS; c = c + 1)
                     B_reg[r][c] <= '0;
-                end
-            end
-        end else begin
+
+            captured <= '0;
+            c_flat   <= '0;
+        end
+        else begin
+            // load new A/B matrices when we get a start while controller idle
             if (start && !ctrl_busy) begin
-                // load A
+                // load A : ROWS x K
                 for (r = 0; r < ROWS; r = r + 1) begin
                     for (c = 0; c < K; c = c + 1) begin
-                        int idx;
-                        idx = r*K + c;
-                        A_reg[r][c] <= a_flat[(idx+1)*DATA_W-1 -: DATA_W];
+                        idx_load_A = r*K + c;
+                        A_reg[r][c] <= a_flat[(idx_load_A+1)*DATA_W-1 -: DATA_W];
                     end
                 end
 
-                // load B
+                // load B : K x COLS
                 for (r = 0; r < K; r = r + 1) begin
                     for (c = 0; c < COLS; c = c + 1) begin
-                        int idx;
-                        idx = r*COLS + c;
-                        B_reg[r][c] <= b_flat[(idx+1)*DATA_W-1 -: DATA_W];
+                        idx_load_B = r*COLS + c;
+                        B_reg[r][c] <= b_flat[(idx_load_B+1)*DATA_W-1 -: DATA_W];
                     end
                 end
 
-                // reset capture flags and C outputs
+                // clear previous outputs
                 captured <= '0;
                 c_flat   <= '0;
+            end
+            else begin
+                // capture C outputs from array
+                for (idx_flat = 0; idx_flat < ROWS*COLS; idx_flat = idx_flat + 1) begin
+                    if (c_valid[idx_flat] && !captured[idx_flat]) begin
+                        captured[idx_flat] <= 1'b1;
+                        c_flat[(idx_flat+1)*ACC_W-1 -: ACC_W] <=
+                            c_bus[(idx_flat+1)*ACC_W-1 -: ACC_W];
+                    end
+                end
             end
         end
     end
 
-    // drive left and top edge inputs to systolic_array
-    always @(*) begin
+    
+    // drive left / top edges of the systolic array
+
+    always @* begin
         a_in_bus = '0;
         b_in_bus = '0;
 
         if (ctrl_busy && (k_idx < K)) begin
-            // use k_idx as the column index in A, row index in B
-            for (r = 0; r < ROWS; r = r + 1) begin
+            // k_idx is column index in A and row index in B
+            for (r = 0; r < ROWS; r = r + 1)
                 a_in_bus[(r+1)*DATA_W-1 -: DATA_W] = A_reg[r][k_idx];
-            end
-            for (c = 0; c < COLS; c = c + 1) begin
-                b_in_bus[(c+1)*DATA_W-1 -: DATA_W] = B_reg[k_idx][c];
-            end
-        end
-    end
 
-    // capture C outputs when each PE asserts its valid for the first time
-    integer idx;
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            captured <= '0;
-            c_flat   <= '0;
-        end else begin
-            for (idx = 0; idx < ROWS*COLS; idx = idx + 1) begin
-                if (c_valid[idx] && !captured[idx]) begin
-                    captured[idx] <= 1'b1;
-                    c_flat[(idx+1)*ACC_W-1 -: ACC_W] <= c_bus[(idx+1)*ACC_W-1 -: ACC_W];
-                end
-            end
+            for (c = 0; c < COLS; c = c + 1)
+                b_in_bus[(c+1)*DATA_W-1 -: DATA_W] = B_reg[k_idx][c];
         end
     end
 

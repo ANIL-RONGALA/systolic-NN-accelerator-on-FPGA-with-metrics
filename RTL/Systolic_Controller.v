@@ -14,7 +14,7 @@ module systolic_controller #(
     output reg  busy,
     output reg  done,
 
-    // drive this into systolic_array.valid_in
+    // drive this into systolic_array.valid_src
     output reg  valid_src,
     // current k index while feeding (0..K-1)
     output reg [$clog2(K):0] k_idx
@@ -22,27 +22,18 @@ module systolic_controller #(
 
     localparam integer FLUSH_CYCLES = ROWS + COLS - 2;
 
-    typedef enum logic [1:0] {
+    // simple one-hot-ish FSM encoding
+    localparam [1:0]
         S_IDLE  = 2'b00,
         S_FEED  = 2'b01,
         S_FLUSH = 2'b10,
-        S_DONE  = 2'b11
-    } state_t;
+        S_DONE  = 2'b11;
 
-    state_t state, next_state;
+    reg [1:0] state, next_state;
+    reg [$clog2(FLUSH_CYCLES+1)-1:0] flush_cnt;
 
-    reg [$clog2(FLUSH_CYCLES+1):0] flush_cnt;
-
-    // state register
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n)
-            state <= S_IDLE;
-        else
-            state <= next_state;
-    end
-
-    // next-state logic
-    always @(*) begin
+    // next-state
+    always @* begin
         next_state = state;
         case (state)
             S_IDLE: begin
@@ -51,7 +42,7 @@ module systolic_controller #(
             end
 
             S_FEED: begin
-                if (k_idx == K)  // we fed K cycles
+                if (k_idx == K)
                     next_state = S_FLUSH;
             end
 
@@ -66,45 +57,50 @@ module systolic_controller #(
         endcase
     end
 
-    // outputs and counters
+    // state + outputs
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
+            state      <= S_IDLE;
             busy       <= 1'b0;
             done       <= 1'b0;
             valid_src  <= 1'b0;
-            k_idx      <= '0;
-            flush_cnt  <= '0;
+            k_idx      <= {($clog2(K)+1){1'b0}};
+            flush_cnt  <= {($clog2(FLUSH_CYCLES+1)){1'b0}};
         end else begin
+            state <= next_state;
+
+            // defaults
+            busy      <= 1'b0;
             done      <= 1'b0;
             valid_src <= 1'b0;
 
             case (state)
                 S_IDLE: begin
                     busy      <= 1'b0;
-                    k_idx     <= '0;
-                    flush_cnt <= '0;
+                    done      <= 1'b0;
+                    valid_src <= 1'b0;
+                    k_idx     <= 0;
+                    flush_cnt <= 0;
                 end
 
                 S_FEED: begin
                     busy      <= 1'b1;
-                    valid_src <= 1'b1;  // feeding A/B into array
-
+                    valid_src <= 1'b1; // feed A/B into array
                     if (k_idx < K)
                         k_idx <= k_idx + 1;
                 end
 
                 S_FLUSH: begin
                     busy <= 1'b1;
-                    // no more valid_src here, just let wave move
                     if (flush_cnt < FLUSH_CYCLES)
                         flush_cnt <= flush_cnt + 1;
                 end
 
                 S_DONE: begin
-                    busy <= 1'b0;
-                    done <= 1'b1;
-                    k_idx     <= '0;
-                    flush_cnt <= '0;
+                    busy      <= 1'b0;
+                    done      <= 1'b1;
+                    k_idx     <= 0;
+                    flush_cnt <= 0;
                 end
             endcase
         end

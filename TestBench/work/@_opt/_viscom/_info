@@ -1,0 +1,5 @@
+__design_bin_path=C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench
+incr_run_version=32768
+incr_partial_run_stats=0:0
+incr_no_change_stats=0:0
+opt_data_elab=C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/work/@_opt

@@ -1,0 +1,5 @@
+2 19 systolic_controller 4 fast 69 C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/work 0 0 0 0 154 0
+2 11 systolic_pe 4 fast 69 C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/work 0 0 131072 0 92 0
+2 14 systolic_array 4 fast 69 C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/work 0 0 2097152 0 3565 0
+2 12 systolic_top 4 fast 69 C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/work 0 0 2228224 0 4191 0
+1 15 tb_systolic_top 4 fast 69 C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/work 0 0 2228224 0 4526 0

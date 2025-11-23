@@ -1,0 +1,57 @@
+C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_Top.v {1 {vlog -work work -vopt -stats=none C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_Top.v
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) 'C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/systolic_project_fse.mpf' is used as the ini file.
+-- Compiling module systolic_top
+
+Top level modules:
+	systolic_top
+
+} {} {}} C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_Array.v {1 {vlog -work work -vopt -stats=none C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_Array.v
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) 'C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/systolic_project_fse.mpf' is used as the ini file.
+-- Compiling module systolic_array
+
+Top level modules:
+	systolic_array
+
+} {} {}} C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_pe.sv {1 {vlog -work work -vopt -sv -stats=none C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_pe.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) 'C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/systolic_project_fse.mpf' is used as the ini file.
+-- Compiling module tb_systolic_pe
+
+Top level modules:
+	tb_systolic_pe
+
+} {} {}} C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_Controller.v {1 {vlog -work work -vopt -stats=none C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_Controller.v
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) 'C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/systolic_project_fse.mpf' is used as the ini file.
+-- Compiling module systolic_controller
+
+Top level modules:
+	systolic_controller
+
+} {} {}} C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_PE.v {1 {vlog -work work -vopt -stats=none C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/RTL/Systolic_PE.v
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) 'C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/systolic_project_fse.mpf' is used as the ini file.
+-- Compiling module systolic_pe
+
+Top level modules:
+	systolic_pe
+
+} {} {}} C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_top.sv {1 {vlog -work work -vopt -sv -stats=none C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_top.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) 'C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/systolic_project_fse.mpf' is used as the ini file.
+-- Compiling module tb_systolic_top
+
+Top level modules:
+	tb_systolic_top
+
+} {} {}} C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_array.sv {1 {vlog -work work -vopt -sv -stats=none C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/tb_systolic_array.sv
+Questa Altera Starter FPGA Edition-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+** Note: (vlog-220) 'C:/GitHub/systolic-NN-accelerator-on-FPGA-with-metrics/TestBench/systolic_project_fse.mpf' is used as the ini file.
+-- Compiling module tb_systolic_array
+
+Top level modules:
+	tb_systolic_array
+
+} {} {}}

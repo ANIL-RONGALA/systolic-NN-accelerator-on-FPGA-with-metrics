@@ -19,6 +19,7 @@ Modular architecture supporting expansion to larger arrays or other NN primitive
 This work is ideal for digital-design, computer-architecture and AI-hardware research, and is fully reproducible with RTL + testbench + golden model.
 
 🧰 2. Repository Contents
+```text
 systolic-NN-accelerator-on-FPGA-with-metrics/
 │
 ├── golden/                  # Python golden model + test-vector generator  
@@ -54,7 +55,7 @@ systolic-NN-accelerator-on-FPGA-with-metrics/
 │
 ├── LICENSE                  # MIT License  
 └── README.md                # This file  
-
+```
 🔍 3. Key Design Features
 
 Processing Element (PE): Performs multiply-accumulate (MAC) operations; forms the building block of the systolic array.

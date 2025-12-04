@@ -44,6 +44,8 @@ systolic-NN-accelerator-on-FPGA-with-metrics/
 │   ├── tb_top.sv  
 │   └── run.do                # ModelSim simulation script  
 │
+```
+<!--
 ├── quartus_project/         # FPGA synthesis project (Quartus/Vivado)  
 │   ├── project.qpf  
 │   ├── project.qsf  
@@ -54,6 +56,8 @@ systolic-NN-accelerator-on-FPGA-with-metrics/
 │   ├── block_diagram.png  
 │   └── final_paper.pdf  
 │
+-->
+```
 ├── LICENSE                  # MIT License  
 └── README.md                # This file  
 ```

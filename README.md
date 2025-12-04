@@ -98,7 +98,7 @@ Run post-place-and-route simulation or hardware test if board available.
 ## 📊 5. Metrics & Results
 ---
 Functional parity verified between golden model and RTL for tile sizes up to 64×64.
-
+<!--
 Example reporting:
 
 LUTs: ~X, FFs: ~Y, BRAM: ~Z (for 4×4 array)
@@ -108,6 +108,7 @@ Maximum frequency: ~F MHz
 Throughput: ~T GMAC/s
 
 (Refer to reports/ for full details.)
+-->
 
 ## 📂 6. How to Reproduce or Extend
 ---

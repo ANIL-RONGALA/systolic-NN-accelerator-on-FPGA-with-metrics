@@ -1,0 +1,43 @@
+name: Week 01 - Systolic Valid Propagation Diagnostic
+
+# The test is expected to FAIL against the original RTL.
+# A red run indicates the off-diagonal valid defect is reproduced.
+on:
+  push:
+    branches:
+      - week01-diagnostics
+    paths:
+      - 'RTL/**'
+      - 'TestBench/tb_week01_valid_diag.sv'
+      - '.github/workflows/week01-diagnostics.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  valid-propagation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out diagnostic branch
+        uses: actions/checkout@v4
+
+      - name: Install Icarus Verilog
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y iverilog
+          iverilog -V | head -n 2
+
+      - name: Compile 2x2 diagnostic
+        run: |
+          mkdir -p build
+          iverilog -g2012 -Wall \
+            -s tb_week01_valid_diag \
+            -o build/week01_diag.vvp \
+            RTL/Systolic_PE.v \
+            RTL/Systolic_Array.v \
+            TestBench/tb_week01_valid_diag.sv
+
+      - name: Run expected-failing valid-path regression
+        run: |
+          vvp build/week01_diag.vvp

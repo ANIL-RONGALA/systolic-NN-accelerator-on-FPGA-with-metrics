@@ -1,0 +1,31 @@
+name: Week 01 - Reference and PyTorch Baseline
+on:
+  push:
+    branches: [week01-diagnostics]
+    paths:
+      - 'reference/**'
+      - 'tests/**'
+      - 'ml/**'
+      - '.github/workflows/week01-learning.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  python-week01:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: requirements-week01.txt
+      - name: Install pinned dependencies
+        run: python -m pip install -r requirements-week01.txt
+      - name: Show installed versions
+        run: python -c 'import numpy,torch,pytest; print("numpy",numpy.__version__,"torch",torch.__version__,"pytest",pytest.__version__)'
+      - name: Run deterministic GEMM tests
+        run: python -m pytest tests/test_gemm.py -q
+      - name: Run PyTorch tensor and autograd baseline
+        run: python ml/linear_autograd.py

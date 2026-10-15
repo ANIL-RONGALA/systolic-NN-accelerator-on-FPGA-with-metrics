@@ -12,10 +12,21 @@
 - `.github/workflows/week01-learning.yml`: cloud tests for the two Python tasks.
 
 ## Review after GitHub Actions runs
-- Date / git SHA: TBD
-- Python, NumPy, PyTorch, pytest versions: check CI output
-- GEMM tests: TBD
-- PyTorch model run: TBD
-- Recreated environment: TBD (requirements pinned in CI after first successful run)
-- Known RTL error: uncorrected; fix and full scoreboard scheduled for Week 2
-- First command next week: rerun validated tests and add cycle-accurate data/valid scoreboard
+
+- **Validation date:** October 15, 2026
+- **Branch tested:** `week01-diagnostics`
+- **Workflow run:** https://github.com/ANIL-RONGALA/systolic-NN-accelerator-on-FPGA-with-metrics/actions/runs/38627698220
+- **GEMM reference:** 11/11 tests passed.
+- **PyTorch:** 2.5.1+cpu
+- **PyTorch regression:** Passed.
+- **Learned parameters:** w = 3.000241, b = 1.999147.
+- **Final loss:** Approximately 0.00000024.
+- **Known RTL defect:** Valid propagation failed for off-diagonal processing elements (`1001` observed in the earlier diagnostic).
+- **RTL correctness:** Not yet established; correction scheduled for Week 2.
+
+### Week 1 conclusion
+
+Completed the architecture review, documented the RTL defect, implemented an independent GEMM reference with deterministic tests, and validated a reproducible PyTorch autograd training exercise.
+
+The Python reference and ML baseline passed. Full systolic-array functionality remains a Week 2 objective.
+

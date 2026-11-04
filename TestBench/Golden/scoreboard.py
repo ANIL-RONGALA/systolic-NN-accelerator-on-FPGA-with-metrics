@@ -23,3 +23,4 @@ else:
                     f"expected {expected[i,j]}, "
                     f"got {observed[i,j]}"
                 )
+    raise SystemExit(1)

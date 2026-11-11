@@ -2,9 +2,10 @@ name: Week 2 Scoreboard
 
 on:
   push:
-    branches: [week01-diagnostics]
+    branches:
+      - week01-diagnostics
+      - week02-output-stationary
   workflow_dispatch:
-
 jobs:
 
   scoreboard-test:

@@ -1,123 +1,76 @@
-// systolic_array.v
-// 2D wavefront systolic array.
-// A enters from left edge (one value per row).
-// B enters from top edge (one value per column).
-// Partial sums move diagonally.
 
 module systolic_array #(
     parameter DATA_W = 8,
     parameter ACC_W  = 32,
-    parameter ROWS   = 4,
-    parameter COLS   = 4
+    parameter ROWS   = 2,
+    parameter COLS   = 2,
+    parameter K      = 2
 )(
-    input  wire                         clk,
-    input  wire                         rst_n,
+    input wire clk,
+    input wire rst_n,
 
-    // Valid source for the wavefront
-    input  wire                         valid_in,
+    input wire signed [ROWS*DATA_W-1:0] a_in_bus,
+    input wire signed [COLS*DATA_W-1:0] b_in_bus,
 
-    // Left edge A inputs: one per row
-    input  wire signed [ROWS*DATA_W-1:0] a_in_bus,
+    input wire [ROWS-1:0] a_valid_bus,
+    input wire [COLS-1:0] b_valid_bus,
 
-    // Top edge B inputs: one per column
-    input  wire signed [COLS*DATA_W-1:0] b_in_bus,
-
-    // Flattened partial sums from each PE (row-major)
     output wire signed [ROWS*COLS*ACC_W-1:0] c_bus,
-    // Valid flags from each PE (same order as c_bus)
-    output wire [ROWS*COLS-1:0]              c_valid
+    output wire [ROWS*COLS-1:0] c_valid
 );
 
-    // internal buses
-    wire signed [DATA_W-1:0] a_bus [0:ROWS-1][0:COLS];
-    wire signed [DATA_W-1:0] b_bus [0:ROWS][0:COLS-1];
-    wire signed [ACC_W-1:0]  ps_bus[0:ROWS][0:COLS];
-    wire                     v_bus [0:ROWS][0:COLS];
+    wire signed [DATA_W-1:0] a_data [0:ROWS-1][0:COLS];
+    wire signed [DATA_W-1:0] b_data [0:ROWS][0:COLS-1];
+
+    wire a_valid [0:ROWS-1][0:COLS];
+    wire b_valid [0:ROWS][0:COLS-1];
 
     genvar i, j;
 
-    // left edge: feed A
     generate
-        for (i = 0; i < ROWS; i = i + 1) begin : LEFT_EDGE
-            assign a_bus[i][0] = a_in_bus[(i+1)*DATA_W-1 -: DATA_W];
+        for (i=0; i<ROWS; i=i+1) begin : A_EDGE
+            assign a_data[i][0] =
+                a_in_bus[i*DATA_W +: DATA_W];
+            assign a_valid[i][0] = a_valid_bus[i];
         end
-    endgenerate
 
-    // top edge: feed B
-    generate
-        for (j = 0; j < COLS; j = j + 1) begin : TOP_EDGE
-            assign b_bus[0][j] = b_in_bus[(j+1)*DATA_W-1 -: DATA_W];
+        for (j=0; j<COLS; j=j+1) begin : B_EDGE
+            assign b_data[0][j] =
+                b_in_bus[j*DATA_W +: DATA_W];
+            assign b_valid[0][j] = b_valid_bus[j];
         end
-    endgenerate
 
-    // origin of wavefront
-    assign ps_bus[0][0] = '0;
-    assign v_bus[0][0]  = valid_in;
+        for (i=0; i<ROWS; i=i+1) begin : ROW_GEN
+            for (j=0; j<COLS; j=j+1) begin : COL_GEN
 
-    // top row ps/v (except origin) = 0
-    generate
-        for (j = 1; j <= COLS; j = j + 1) begin : TOP_PS
-            assign ps_bus[0][j] = '0;
-            assign v_bus[0][j]  = 1'b0;
-        end
-    endgenerate
-
-    // left column ps/v (except origin) = 0
-    generate
-        for (i = 1; i <= ROWS; i = i + 1) begin : LEFT_PS
-            assign ps_bus[i][0] = '0;
-            assign v_bus[i][0]  = 1'b0;
-        end
-    endgenerate
-
-    // PEs
-    generate
-        for (i = 0; i < ROWS; i = i + 1) begin : ROW_GEN
-            for (j = 0; j < COLS; j = j + 1) begin : COL_GEN
-
-                wire signed [DATA_W-1:0] a_in, b_in;
-                wire signed [ACC_W-1:0]  ps_in;
-                wire                     v_in;
-
-                wire signed [DATA_W-1:0] a_out, b_out;
-                wire signed [ACC_W-1:0]  ps_out;
-                wire                     v_out;
-
-                assign a_in  = a_bus[i][j];
-                assign b_in  = b_bus[i][j];
-                assign ps_in = ps_bus[i][j];
-                assign v_in  = v_bus[i][j];
+                localparam INDEX = i*COLS+j;
 
                 systolic_pe #(
                     .DATA_W(DATA_W),
-                    .ACC_W (ACC_W)
-                ) u_pe (
-                    .clk       (clk),
-                    .rst_n     (rst_n),
-                    .valid_in  (v_in),
-                    .a_in      (a_in),
-                    .b_in      (b_in),
-                    .ps_in     (ps_in),
-                    .valid_out (v_out),
-                    .a_out     (a_out),
-                    .b_out     (b_out),
-                    .ps_out    (ps_out)
+                    .ACC_W(ACC_W),
+                    .K(K)
+                ) pe (
+                    .clk(clk),
+                    .rst_n(rst_n),
+
+                    .a_in(a_data[i][j]),
+                    .b_in(b_data[i][j]),
+
+                    .a_valid_in(a_valid[i][j]),
+                    .b_valid_in(b_valid[i][j]),
+
+                    .a_out(a_data[i][j+1]),
+                    .b_out(b_data[i+1][j]),
+
+                    .a_valid_out(a_valid[i][j+1]),
+                    .b_valid_out(b_valid[i+1][j]),
+
+                    .ps_out(c_bus[INDEX*ACC_W +: ACC_W]),
+                    .valid_out(c_valid[INDEX])
                 );
-
-                // feed neighbors
-                assign a_bus[i][j+1]   = a_out;
-                assign b_bus[i+1][j]   = b_out;
-                assign ps_bus[i+1][j+1] = ps_out;
-                assign v_bus[i+1][j+1]  = v_out;
-
-                // flatten outputs
-                localparam integer INDEX = i*COLS + j;
-                assign c_bus  [(INDEX+1)*ACC_W-1 -: ACC_W] = ps_out;
-                assign c_valid[INDEX]                      = v_out;
 
             end
         end
     endgenerate
 
 endmodule
-
